@@ -1,0 +1,1088 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Renewal Academy | Sales Supervisor Toolkit</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#1a1520;--bg2:#241e20;--bg3:#2e2630;--accent:#0077c8;--accent-dim:rgba(0,119,200,.15);--glass:rgba(255,255,255,.04);--glass-border:rgba(255,255,255,.08);--text:#e8e4ec;--text-dim:#9a929e;--text-muted:#6a626e;--success:#22c55e;--warning:#f59e0b;--danger:#ef4444;--info:#3b82f6;--purple:#a78bfa;--radius:12px;--radius-sm:8px}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;line-height:1.6}
+h1,h2,h3,h4,h5{font-family:'Space Grotesk',system-ui,sans-serif;font-weight:600;line-height:1.2}
+.bokeh{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;overflow:hidden}
+.bokeh span{position:absolute;border-radius:50%;filter:blur(80px);opacity:.04;animation:float 25s infinite ease-in-out}
+.bokeh span:nth-child(1){width:600px;height:600px;background:#0077c8;top:-10%;left:-5%}
+.bokeh span:nth-child(2){width:500px;height:500px;background:#00a3e0;top:50%;right:-10%;animation-delay:-8s}
+.bokeh span:nth-child(3){width:400px;height:400px;background:#0077c8;bottom:-5%;left:30%;animation-delay:-16s}
+@keyframes float{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(30px,-40px) scale(1.05)}66%{transform:translate(-20px,30px) scale(.95)}}
+.app{position:relative;z-index:1;display:flex;min-height:100vh}
+.sidebar{width:272px;background:var(--bg2);border-right:1px solid var(--glass-border);padding:24px 0;display:flex;flex-direction:column;position:fixed;height:100vh;overflow-y:auto;transition:transform .3s;z-index:50}
+.main{flex:1;margin-left:272px;padding:32px 40px;max-width:1100px}
+.sidebar-header{padding:0 20px 20px;border-bottom:1px solid var(--glass-border)}
+.sidebar-header h1{font-size:1.3rem;color:var(--accent);margin-bottom:2px}
+.sidebar-header span{font-size:.72rem;color:var(--text-dim);letter-spacing:1px;text-transform:uppercase}
+.progress-bar{height:4px;background:var(--bg);border-radius:2px;overflow:hidden;margin-top:10px}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),#00a3e0);border-radius:2px;transition:width .6s ease}
+.nav{padding:12px 0;flex:1;overflow-y:auto}
+.nav-label{padding:14px 20px 6px;font-size:.62rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:2px;font-weight:600}
+.nav-item{display:flex;align-items:center;gap:10px;padding:9px 20px;color:var(--text-dim);cursor:pointer;transition:all .2s;font-size:.84rem;border-left:3px solid transparent}
+.nav-item:hover{background:var(--glass);color:var(--text)}
+.nav-item.active{color:var(--accent);background:var(--accent-dim);border-left-color:var(--accent)}
+.nav-item .ch-num{width:22px;height:22px;border-radius:6px;background:var(--glass);display:flex;align-items:center;justify-content:center;font-size:.68rem;font-weight:700;flex-shrink:0}
+.nav-item.active .ch-num{background:rgba(0,119,200,.25);color:var(--accent)}
+.nav-item svg{width:17px;height:17px;flex-shrink:0}
+.sidebar-footer{padding:14px 20px;border-top:1px solid var(--glass-border);font-size:.72rem;color:var(--text-muted)}
+.menu-toggle{display:none;position:fixed;top:14px;left:14px;z-index:100;width:40px;height:40px;background:var(--bg2);border:1px solid var(--glass-border);border-radius:8px;color:var(--text);cursor:pointer;align-items:center;justify-content:center;font-size:1.2rem}
+@media(max-width:900px){.sidebar{transform:translateX(-100%)}.sidebar.open{transform:translateX(0)}.main{margin-left:0;padding:60px 16px 24px}.menu-toggle{display:flex}}
+.page{display:none}.page.active{display:block;animation:fadeIn .3s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.welcome{margin-bottom:28px}.welcome h2{font-size:1.7rem;margin-bottom:4px}.welcome p{color:var(--text-dim)}
+.card{background:var(--glass);backdrop-filter:blur(20px);border:1px solid var(--glass-border);border-radius:var(--radius);padding:22px;margin-bottom:16px}
+.tabs{display:flex;gap:4px;margin-bottom:22px;background:var(--bg);border-radius:var(--radius-sm);padding:4px;flex-wrap:wrap}
+.tab{padding:7px 14px;border-radius:6px;font-size:.78rem;cursor:pointer;color:var(--text-dim);transition:all .2s;border:none;background:none;font-family:inherit}
+.tab:hover{color:var(--text)}.tab.active{background:var(--accent);color:#fff}
+.chapter-list{display:grid;gap:10px}
+.chapter-item{display:flex;align-items:center;gap:14px;background:var(--glass);border:1px solid var(--glass-border);border-radius:var(--radius);padding:16px 18px;cursor:pointer;transition:all .2s}
+.chapter-item:hover{border-color:rgba(0,119,200,.3);background:rgba(0,119,200,.04)}
+.chapter-item .num{width:40px;height:40px;border-radius:10px;background:var(--accent-dim);color:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1rem;flex-shrink:0}
+.chapter-item .ch-info{flex:1}.chapter-item .ch-info h4{font-size:.92rem;margin-bottom:2px}.chapter-item .ch-info span{font-size:.76rem;color:var(--text-dim)}
+.chapter-item.completed{border-color:rgba(34,197,94,.35)!important;background:rgba(34,197,94,.05)!important}
+.chapter-item.completed .num{background:rgba(34,197,94,.2)!important;color:var(--success)!important}
+.chapter-item.completed .ch-info h4{color:var(--success)!important}
+.ittt-section{margin-bottom:36px}
+.ittt-section h2{font-size:1.25rem;margin-bottom:6px;display:flex;align-items:center;gap:10px}
+.ittt-section h2 .icon{width:30px;height:30px;border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;font-size:.9rem}
+.ittt-section>p{color:var(--text-dim);margin-bottom:18px;font-size:.88rem}
+.ittt-card{background:var(--glass);backdrop-filter:blur(20px);border:1px solid var(--glass-border);border-radius:var(--radius);overflow:hidden;margin-bottom:14px}
+.ittt-card-header{padding:18px 22px;cursor:pointer;display:flex;align-items:center;gap:14px;transition:background .2s}
+.ittt-card-header:hover{background:rgba(255,255,255,.02)}
+.ittt-card-header .marker{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.82rem;flex-shrink:0}
+.ittt-card-header .marker.red{background:var(--accent-dim);color:var(--accent)}
+.ittt-card-header .marker.blue{background:rgba(59,130,246,.15);color:var(--info)}
+.ittt-card-header .marker.green{background:rgba(34,197,94,.15);color:var(--success)}
+.ittt-card-header .marker.yellow{background:rgba(245,158,11,.15);color:var(--warning)}
+.ittt-card-header .marker.purple{background:rgba(139,92,246,.15);color:var(--purple)}
+.ittt-card-header .info{flex:1}.ittt-card-header .info h4{font-size:.92rem;margin-bottom:2px}.ittt-card-header .info span{font-size:.76rem;color:var(--text-dim)}
+.ittt-card-header .arrow{color:var(--text-muted);transition:transform .3s;font-size:1.1rem}
+.ittt-card.open .ittt-card-header .arrow{transform:rotate(180deg)}
+.ittt-card-body{display:none;padding:0 22px 22px;border-top:1px solid var(--glass-border)}
+.ittt-card.open .ittt-card-body{display:block}
+.block{border-radius:var(--radius-sm);padding:14px 18px;margin-bottom:10px}
+.block-if{background:rgba(0,119,200,.06);border:1px solid rgba(0,119,200,.15)}
+.block-then{background:rgba(59,130,246,.06);border:1px solid rgba(59,130,246,.15)}
+.block-notice{background:rgba(34,197,94,.06);border:1px solid rgba(34,197,94,.15)}
+.block-mistake{background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.15)}
+.block-approach{background:rgba(255,255,255,.03);border:1px solid var(--glass-border)}
+.block-why{background:rgba(0,119,200,.04);border-left:3px solid var(--accent);padding:12px 18px;border-radius:0 var(--radius-sm) var(--radius-sm) 0}
+.block-principle{text-align:center;padding:18px;background:linear-gradient(135deg,rgba(0,119,200,.08),rgba(0,119,200,.02));border-radius:var(--radius-sm);border:1px solid rgba(0,119,200,.12)}
+.block .label{font-size:.62rem;text-transform:uppercase;letter-spacing:1.5px;font-weight:700;margin-bottom:5px}
+.block-if .label{color:var(--accent)}.block-then .label{color:var(--info)}.block-notice .label{color:var(--success)}.block-mistake .label{color:var(--warning)}.block-approach .label{color:var(--text)}.block-why .label{color:var(--accent)}.block-principle .label{color:var(--accent)}
+.block p,.block li{color:var(--text);font-size:.88rem}
+.block blockquote{border-left:3px solid var(--accent);padding-left:12px;color:var(--text);font-style:italic;margin:6px 0}
+.block ul{list-style:none;padding:0}.block li{padding:3px 0 3px 18px;position:relative}
+.block-notice li::before,.block-mistake li::before{content:'';position:absolute;left:0;top:10px;width:7px;height:7px;border-radius:50%;opacity:.6}
+.block-notice li::before{background:var(--success)}.block-mistake li::before{background:var(--warning)}
+.block-principle p{font-size:.95rem;font-weight:600}
+.ch-section{margin-bottom:28px}
+.ch-section h3{font-size:1.05rem;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--glass-border)}
+.ch-section p{color:var(--text-dim);font-size:.88rem;margin-bottom:8px}
+.ch-section ul{list-style:none;padding:0}.ch-section li{padding:4px 0 4px 18px;position:relative;color:var(--text-dim);font-size:.86rem}
+.ch-section li::before{content:'\203A';position:absolute;left:0;color:var(--accent);font-weight:700}
+.key-takeaway{background:linear-gradient(135deg,rgba(0,119,200,.1),rgba(0,119,200,.03));border:1px solid rgba(0,119,200,.2);border-radius:var(--radius);padding:18px 22px;margin:20px 0;text-align:center}
+.key-takeaway .kt-label{font-size:.6rem;color:var(--accent);text-transform:uppercase;letter-spacing:2px;font-weight:700;margin-bottom:6px}
+.key-takeaway p{font-size:1rem;font-weight:600;color:var(--text)}
+.ch-nav{display:flex;justify-content:space-between;margin-top:32px;padding-top:20px;border-top:1px solid var(--glass-border)}
+.ch-nav button{padding:10px 20px;border-radius:var(--radius-sm);border:1px solid var(--glass-border);background:var(--glass);color:var(--text);cursor:pointer;font-family:inherit;font-size:.84rem;transition:all .2s}
+.ch-nav button:hover{background:var(--accent);border-color:var(--accent);color:#fff}
+.ch-nav button:disabled{opacity:.3;cursor:not-allowed}
+
+/* Checklist */
+.checklist{list-style:none;padding:0}.checklist li{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid var(--glass-border)}.checklist li:last-child{border-bottom:none}
+.check-box{width:20px;height:20px;border:2px solid var(--glass-border);border-radius:4px;flex-shrink:0;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;margin-top:2px}
+.check-box.checked{background:var(--success);border-color:var(--success)}.check-box.checked::after{content:'\2713';color:#fff;font-size:.7rem;font-weight:700}
+.checklist .item-text{font-size:.86rem}.checklist .item-text.checked-text{text-decoration:line-through;color:var(--text-muted)}
+.checklist-notes{width:100%;min-height:100px;border-radius:var(--radius-sm);border:1px solid var(--glass-border);background:var(--glass);color:var(--text);font-family:'Inter',sans-serif;font-size:.85rem;padding:12px 14px;resize:vertical;outline:none;line-height:1.5}
+.checklist-notes:focus{border-color:rgba(0,119,200,.3)}
+.checklist-notes::placeholder{color:var(--text-muted)}
+.checklist-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:16px}
+.checklist-actions button{padding:10px 22px;border-radius:var(--radius-sm);font-size:.82rem;font-weight:600;cursor:pointer;border:1px solid var(--glass-border);font-family:'Inter',sans-serif;transition:all .2s}
+.btn-clear{background:transparent;color:var(--text-dim)}
+.btn-clear:hover{border-color:var(--warning);color:var(--warning)}
+.btn-export{background:var(--accent);color:#fff;border-color:var(--accent)}
+.btn-export:hover{background:#005a9e}
+
+/* Scoring */
+.score-ring{width:160px;height:160px;margin:0 auto 20px;position:relative}
+.score-ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.score-ring circle{fill:none;stroke-width:8;stroke-linecap:round}
+.score-ring .bg{stroke:var(--glass-border)}
+.score-ring .fill{stroke:var(--accent);transition:stroke-dashoffset .8s ease,stroke .3s}
+.score-ring .score-text{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.score-ring .score-num{font-size:2.2rem;font-weight:700;font-family:'Space Grotesk',sans-serif}
+.score-ring .score-label{font-size:.72rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px}
+.grade-badge{display:inline-block;padding:6px 18px;border-radius:20px;font-size:.82rem;font-weight:700;margin:0 auto}
+.grade-a{background:rgba(34,197,94,.15);color:var(--success)}
+.grade-b{background:rgba(0,119,200,.15);color:var(--accent)}
+.grade-c{background:rgba(245,158,11,.15);color:var(--warning)}
+.grade-d{background:rgba(239,68,68,.15);color:var(--danger)}
+
+/* Scoring Table */
+.score-table{width:100%;border-collapse:collapse;font-size:.84rem}
+.score-table th{text-align:left;padding:10px 14px;background:var(--bg);color:var(--text-muted);font-size:.68rem;text-transform:uppercase;letter-spacing:1px;border-bottom:1px solid var(--glass-border)}
+.score-table td{padding:10px 14px;border-bottom:1px solid var(--glass-border)}
+.score-table tr:last-child td{border-bottom:none}
+.rating-group{display:flex;gap:4px}
+.rating-btn{width:32px;height:32px;border-radius:6px;border:1px solid var(--glass-border);background:var(--glass);color:var(--text-dim);cursor:pointer;font-size:.78rem;font-weight:600;transition:all .2s;display:flex;align-items:center;justify-content:center}
+.rating-btn:hover{border-color:var(--accent);color:var(--accent)}
+.rating-btn.active{background:var(--accent);border-color:var(--accent);color:#fff}
+
+/* Indicators */
+.indicator-row{display:flex;gap:12px;flex-wrap:wrap;margin:14px 0}
+.indicator{flex:1;min-width:140px;padding:12px 16px;border-radius:var(--radius-sm);border:1px solid var(--glass-border);text-align:center}
+.indicator .ind-label{font-size:.7rem;text-transform:uppercase;letter-spacing:1px;color:var(--text-muted);margin-bottom:4px}
+.indicator .ind-value{font-size:1rem;font-weight:700}
+.indicator.green{border-color:rgba(34,197,94,.3);background:rgba(34,197,94,.06)}.indicator.green .ind-value{color:var(--success)}
+.indicator.yellow{border-color:rgba(245,158,11,.3);background:rgba(245,158,11,.06)}.indicator.yellow .ind-value{color:var(--warning)}
+.indicator.red{border-color:rgba(239,68,68,.3);background:rgba(239,68,68,.06)}.indicator.red .ind-value{color:var(--danger)}
+.indicator.blue{border-color:rgba(59,130,246,.3);background:rgba(59,130,246,.06)}.indicator.blue .ind-value{color:var(--info)}
+
+/* Coachability bars */
+.coach-bar{margin:10px 0}
+.coach-bar .bar-header{display:flex;justify-content:space-between;margin-bottom:4px}
+.coach-bar .bar-label{font-size:.82rem;color:var(--text)}
+.coach-bar .bar-val{font-size:.82rem;color:var(--text-dim)}
+.coach-bar .bar-track{height:6px;background:var(--bg);border-radius:3px;overflow:hidden}
+.coach-bar .bar-fill{height:100%;border-radius:3px;transition:width .6s ease}
+
+/* Action Plan */
+.plan-table{width:100%;border-collapse:collapse;font-size:.84rem}
+.plan-table th{text-align:left;padding:10px 14px;background:var(--bg);color:var(--text-muted);font-size:.68rem;text-transform:uppercase;letter-spacing:1px;border-bottom:1px solid var(--glass-border)}
+.plan-table td{padding:8px 10px;border-bottom:1px solid var(--glass-border);vertical-align:top}
+.plan-table input,.plan-table textarea{width:100%;background:var(--glass);border:1px solid var(--glass-border);border-radius:6px;padding:8px 10px;color:var(--text);font-family:'Inter',sans-serif;font-size:.82rem;outline:none;resize:vertical}
+.plan-table input:focus,.plan-table textarea:focus{border-color:rgba(0,119,200,.4)}
+
+/* Login */
+.login-overlay{position:fixed;inset:0;z-index:9999;background:#241e20;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .8s ease}
+.login-overlay.fade-out{opacity:0;pointer-events:none}
+.splash-logo{max-width:320px;width:80%;opacity:0;animation:logoIn 1.2s ease .3s forwards}
+@keyframes logoIn{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:scale(1)}}
+.login-box{width:340px;max-width:90%;opacity:0;animation:fadeUp .6s ease 1.6s forwards;text-align:center;margin-top:28px}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.login-box h2{font-size:1.1rem;margin-bottom:6px;font-family:'Space Grotesk',sans-serif}
+.login-box p.sub{font-size:.78rem;color:var(--text-dim);margin-bottom:22px}
+.login-field{margin-bottom:14px;text-align:left}
+.login-field label{display:block;font-size:.72rem;text-transform:uppercase;letter-spacing:1px;color:var(--text-muted);margin-bottom:5px}
+.login-field input{width:100%;padding:11px 14px;border-radius:var(--radius-sm);border:1px solid var(--glass-border);background:var(--glass);color:var(--text);font-family:'Inter',sans-serif;font-size:.88rem;outline:none;transition:border-color .2s}
+.login-field input:focus{border-color:rgba(0,119,200,.4)}
+.login-actions{display:flex;gap:10px;margin-top:20px}
+.login-actions a,.login-actions button{flex:1;padding:11px 0;border-radius:var(--radius-sm);font-size:.82rem;font-weight:600;cursor:pointer;text-decoration:none;text-align:center;transition:all .2s;border:none;font-family:'Inter',sans-serif}
+.login-actions a{background:transparent;border:1px solid var(--glass-border);color:var(--text-dim)}
+.login-actions a:hover{border-color:var(--text-dim);color:var(--text)}
+.login-actions button{background:var(--accent);color:#fff;border:1px solid var(--accent)}
+.login-actions button:hover{background:#005a9e}
+.login-error{color:var(--warning);font-size:.76rem;margin-top:10px;min-height:1.1em}
+.app.hidden{display:none}
+
+/* Modals */
+.modal-overlay{position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,.6);display:none;align-items:center;justify-content:center}
+.modal-overlay.show{display:flex}
+.modal-box{background:var(--bg3);border:1px solid var(--glass-border);border-radius:var(--radius);padding:28px 30px;max-width:380px;width:90%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+.modal-box p{font-size:.95rem;margin-bottom:22px;color:var(--text)}
+.modal-actions{display:flex;gap:10px;justify-content:center}
+.modal-actions button{padding:10px 24px;border-radius:var(--radius-sm);font-size:.82rem;font-weight:600;cursor:pointer;border:none;font-family:'Inter',sans-serif;transition:all .2s}
+.modal-cancel{background:var(--glass);color:var(--text-dim);border:1px solid var(--glass-border)!important}
+.modal-cancel:hover{color:var(--text);border-color:var(--text-dim)!important}
+.modal-confirm{background:var(--accent);color:#fff}
+.modal-confirm:hover{background:#005a9e}
+
+/* Notes */
+.note-entry{background:var(--glass);border:1px solid var(--glass-border);border-radius:var(--radius-sm);padding:14px 18px;margin-bottom:10px}
+.note-entry .note-time{font-size:.7rem;color:var(--text-muted);margin-bottom:4px}
+.note-entry .note-content{font-size:.86rem;color:var(--text)}
+.note-input-area{display:flex;gap:10px;margin-bottom:16px}
+.note-input-area textarea{flex:1;min-height:60px;border-radius:var(--radius-sm);border:1px solid var(--glass-border);background:var(--glass);color:var(--text);font-family:'Inter',sans-serif;font-size:.85rem;padding:12px 14px;resize:vertical;outline:none;line-height:1.5}
+.note-input-area textarea:focus{border-color:rgba(0,119,200,.3)}
+.note-input-area button{padding:10px 20px;border-radius:var(--radius-sm);font-size:.82rem;font-weight:600;cursor:pointer;border:none;background:var(--accent);color:#fff;font-family:'Inter',sans-serif;transition:all .2s;align-self:flex-end}
+.note-input-area button:hover{background:#005a9e}
+
+/* Print */
+@media print{
+  .sidebar,.menu-toggle,.bokeh,.login-overlay,.checklist-actions,.note-input-area,.modal-overlay{display:none!important}
+  .main{margin-left:0!important;padding:20px!important;max-width:100%!important}
+  .app{display:block!important}
+  .page{display:block!important}
+  body{background:#fff;color:#222}
+  .card,.ittt-card{border:1px solid #ddd;background:#fff;page-break-inside:avoid}
+  .score-ring svg circle.bg{stroke:#ddd}
+  .score-ring svg circle.fill{stroke:#0077c8}
+  .check-box{border:2px solid #ccc}
+  .check-box.checked{background:#22c55e;border-color:#22c55e}
+  .block{background:#f9f9f9;border:1px solid #ddd}
+  h1,h2,h3,h4{color:#222}
+  p,li,span{color:#333}
+}
+
+/* Scrollbar */
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--glass-border);border-radius:3px}
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<div class="login-overlay" id="loginOverlay">
+<img src="Resources/Logo.avif" alt="Renewal by Andersen" class="splash-logo">
+<div class="login-box">
+<h2>Sign in to access toolkit</h2>
+<div class="login-field"><label>Username</label><input type="text" id="loginUser" autocomplete="off"></div>
+<div class="login-field"><label>Password</label><input type="password" id="loginPass"></div>
+<div class="login-actions">
+<a href="mailto:MorganAmbrose@proton.me">Request Access</a>
+<button onclick="attemptLogin()">Login</button>
+</div>
+<div class="login-error" id="loginError"></div>
+</div>
+</div>
+<div class="bokeh"><span></span><span></span><span></span></div>
+<button class="menu-toggle" onclick="document.querySelector('.sidebar').classList.toggle('open')">&#9776;</button>
+<div class="app hidden">
+<aside class="sidebar">
+<div class="sidebar-header">
+<h1>Renewal Academy</h1>
+<span>Coaching Framework</span>
+<div class="progress-bar"><div class="progress-fill" style="width:0%" id="globalProgress"></div></div>
+</div>
+<nav class="nav">
+<div class="nav-label">Toolkit</div>
+<div class="nav-item active" data-page="dashboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Overview</div>
+<div class="nav-item" data-page="precall"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Pre-Call Prep</div>
+<div class="nav-item" data-page="observation"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>Live Call Observation</div>
+<div class="nav-item" data-page="scoring"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>Supervisor Scoring</div>
+<div class="nav-item" data-page="behavioral"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87m-4-12a4 4 0 010 7.75"/></svg>Behavioral Observations</div>
+<div class="nav-label">Coaching</div>
+<div class="nav-item" data-page="debrief"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>Post-Call Debrief</div>
+<div class="nav-item" data-page="actionplan"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Action Plan</div>
+<div class="nav-item" data-page="notes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>Manager Notes</div>
+<div class="nav-label">Report</div>
+<div class="nav-item" data-page="report"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>Coaching Report</div>
+</nav>
+<div class="sidebar-footer">Renewal by Andersen &copy; 2026</div>
+</aside>
+<div class="main">
+
+<!-- ======================== DASHBOARD ======================== -->
+<div class="page active" id="page-dashboard">
+<div class="welcome"><h2>Sales Supervisor Ride-Along Toolkit</h2><p>Observe calls, score performance, coach with precision, and track improvement over time.</p></div>
+<h3 style="margin-bottom:14px;font-size:1.05rem">Quick Start</h3>
+<div class="chapter-list">
+<div class="chapter-item" onclick="navigateTo('precall')"><div class="num">1</div><div class="ch-info"><h4>Pre-Call Preparation</h4><span>CRM review, notes, objectives, mental prep</span></div></div>
+<div class="chapter-item" onclick="navigateTo('observation')"><div class="num">2</div><div class="ch-info"><h4>Live Call Observation</h4><span>Opening, discovery, objections, close, CRM</span></div></div>
+<div class="chapter-item" onclick="navigateTo('scoring')"><div class="num">3</div><div class="ch-info"><h4>Supervisor Scoring</h4><span>1-5 ratings, auto-calculated grade, RAG status</span></div></div>
+<div class="chapter-item" onclick="navigateTo('behavioral')"><div class="num">4</div><div class="ch-info"><h4>Behavioral Observations</h4><span>Coachability, confidence, pace, empathy, adaptability</span></div></div>
+<div class="chapter-item" onclick="navigateTo('debrief')"><div class="num">5</div><div class="ch-info"><h4>Post-Call Coaching Debrief</h4><span>Self-assessment, strengths, opportunities, role play</span></div></div>
+<div class="chapter-item" onclick="navigateTo('actionplan')"><div class="num">6</div><div class="ch-info"><h4>SMART Action Plan</h4><span>Goal, action, due date, follow-up</span></div></div>
+<div class="chapter-item" onclick="navigateTo('notes')"><div class="num">7</div><div class="ch-info"><h4>Manager Notes</h4><span>Timestamped observations, unlimited notes</span></div></div>
+<div class="chapter-item" onclick="navigateTo('report')"><div class="num">8</div><div class="ch-info"><h4>Coaching Report</h4><span>Printable professional report for reviews & PIPs</span></div></div>
+</div>
+</div>
+
+<!-- ======================== PRE-CALL PREP ======================== -->
+<div class="page" id="page-precall">
+<div class="ittt-section">
+<h2><span class="icon" style="background:var(--accent-dim);color:var(--accent)">&#9998;</span> Pre-Call Preparation</h2>
+<p>Before dialing, ensure the ISR is mentally prepared and informed. Great calls start before the phone rings.</p>
+</div>
+
+<div class="card"><h3 style="font-size:.95rem;margin-bottom:10px">CRM &amp; Account Review</h3>
+<ul class="checklist">
+<li><div class="check-box" onclick="toggleCheck(this)"></div><span class="item-text">CRM reviewed and previous interactions understood</span></li>
+<li><div class="check-box" onclick="toggleCheck(this)"></div><span class="item-text">Lead source and campaign context understood</span></li>
+<li><div class="check-box" onclick="toggleCheck(this)"></div><span class="item-text">Previous objections or concerns noted</span></li>
+<li><div class="check-box" onclick="toggleCheck(this)"></div><span class="item-text">Decision-maker(s) identified</span></li>
+<li><div class="check-box" onclick="toggleCheck(this)"></div><span class="item-text">Property details reviewed (age, type, prior work)</span></li>
+</ul></div>
+
+<div class="card"><h3 style="font-size:.95rem;margin-bottom:10px">Call Objective</h3>
+<ul class="checklist">
+<li><div class="check-box" onclick="toggleCheck(this)"></div><span class="item-text">Clear objective defined for this call</span></li>
+<li><div class="check-box" onclick="toggleCheck(this)"></div><span class="item-text">Desired outcome identified (appointment, follow-up, referral)</span></li>
+<li><div class="check-box" onclick="toggleCheck(this)"></div><span class="item-text">Potential objections anticipated</span></li>
+<li><div class="check-box" onclick="toggleCheck(this)"></div><span class="item-text">Key talking points prepared</span></li>
+</ul></div>
+
+<div class="card"><h3 style="font-size:.95rem;margin-bottom:10px">Mental Preparation</h3>
+<ul class="checklist">
+<li><div class="check-box" onclick="toggleCheck(this)"></div><span class="item-text">Energy and tone set for the call</span></li>
+<li><div class="check-box" onclick="toggleCheck(this)"></div><span class="item-text">Confidence level assessed</span></li>
+<li><div class="check-box" onclick="toggleCheck(this)"></div><span class="item-text">Focused on outcomes, not scripts</span></li>
+</ul></div>
+
+<div class="card" style="margin-top:14px"><h3 style="font-size:.95rem;margin-bottom:10px">Pre-Call Notes</h3>
+<textarea id="precallNotes" class="checklist-notes" placeholder="Additional preparation notes..."></textarea>
+</div>
+
+<div class="checklist-actions">
+<button class="btn-clear" onclick="showClearConfirm('precall')">Clear Selections</button>
+<button class="btn-export" onclick="exportSection('precall','Pre-Call Preparation')">Export</button>
+</div>
+
+<div class="ch-nav">
+<button disabled>&larr; Previous</button>
+<button onclick="navigateTo('observation')">Live Call Observation &rarr;</button>
+</div>
+</div>
+
+<!-- ======================== LIVE CALL OBSERVATION ======================== -->
+<div class="page" id="page-observation">
+<div class="ittt-section">
+<h2><span class="icon" style="background:var(--accent-dim);color:var(--accent)">&#128065;</span> Live Call Observation</h2>
+<p>Use this checklist while sitting beside the ISR or listening to recordings. Check each item as you observe it.</p>
+</div>
+
+<div class="card"><h3 style="font-size:.95rem;margin-bottom:10px">Preparation</h3>
+<ul class="checklist">
+<li><div class="check-box" onclick="toggleCheck(this)"></div><span class="item-text">CRM reviewed, notes understood, objective clear</span></li>
+<li><div class="check-box" onclick="toggleCheck(this)"></div><span class="item-text">ISR prepared before dialing</span></li>
+</ul></div>
+
+<div class="card"><h3 style="font-size:.95rem;margin-bottom:10px">Opening &amp; Permission</h3>
+<ul class="checklist">
+<li><div class="check-box" onclick="toggleCheck(this)"></div><span class="item-text">Confident, professional tone from first word</span></li>
+<li><div class="check-box" onclick="toggleCheck(this)"></div><span class="item-text">Earned the right to continue (energy, clarity)</span></li>
+<li><div class="check-box" onclick="toggleCheck(this)"></div><span class="item-text">Asked for time naturally and respectfully</span></li>
+<li><div class="check-box" onclick="toggleCheck(this)"></div><span class="item-text">Prospect felt respected, not ambushed</span></li>
+</ul></div>
+
+<div class="card"><h3 style="font-size:.95rem;margin-bottom:10px">Rapport &amp; Discovery</h3>
+<ul class="checklist">
+<li><div class="check-box" onclick="toggleCheck(this)"></div><span class="item-text">Personal connection established without wasting time</span></li>
+<li><div class="check-box" onclick="toggleCheck(this)"></div><span class="item-text">Conversational tone maintained</span></li>
+<li><div class="check-box" onclick="toggleCheck(this)"></div><span class="item-text">Asked meaningful questions before pitching</span></li>
+<li><div class="check-box" onclick="toggleCheck(this)"></div><span class="item-text">Uncovered a real problem or need</span></li>
+<li><div class="check-box" onclick="toggleCheck(this)"></div><span class="item-text">Identified decision-makers early</span></li>
+</ul></div>
+
+<div class="card"><h3 style="font-size:.95rem;margin-bottom:10px">Active Listening &amp; Value Positioning</h3>
+<ul class="checklist">
+<li><div class="check-box" onclick="toggleCheck(this)"></div><span class="item-text">Did not interrupt the prospect</span></li>
+<li><div class="check-box" onclick="toggleCheck(this)"></div><span class="item-text">Acknowledged and validated responses</span></li>
+<li><div class="check-box" onclick="toggleCheck(this)"></div><span class="item-text">Tailored conversation to prospect's needs</span></li>
+<li><div class="check-box" onclick="toggleCheck(this)"></div><span class="item-text">Connected Andersen's value to customer's specific situation</span></li>
+<li><div class="check-box" onclick="toggleCheck(this)"></div><span class="item-text">Sold outcomes instead of windows</span></li>
+</ul></div>
+
+<div class="card"><h3 style="font-size:.95rem;margin-bottom:10px">Objection Handling</h3>
+<ul class="checklist">
+<li><div class="check-box" onclick="toggleCheck(this)"></div><span class="item-text">Stayed calm, empathetic, and confident</span></li>
+<li><div class="check-box" onclick="toggleCheck(this)"></div><span class="item-text">Explored the objection before responding</span></li>
+<li><div class="check-box" onclick="toggleCheck(this)"></div><span class="item-text">Diagnosed the root concern (money, trust, timing, fear)</span></li>
+<li><div class="check-box" onclick="toggleCheck(this)"></div><span class="item-text">Educated without arguing or pressuring</span></li>
+</ul></div>
+
+<div class="card"><h3 style="font-size:.95rem;margin-bottom:10px">Trial Close &amp; Appointment Close</h3>
+<ul class="checklist">
+<li><div class="check-box" onclick="toggleCheck(this)"></div><span class="item-text">Checked for buying signals (trial close)</span></li>
+<li><div class="check-box" onclick="toggleCheck(this)"></div><span class="item-text">Tested readiness before pushing forward</span></li>
+<li><div class="check-box" onclick="toggleCheck(this)"></div><span class="item-text">Made a clear, confident ask for the appointment</span></li>
+<li><div class="check-box" onclick="toggleCheck(this)"></div><span class="item-text">Secured commitment (date, time, decision-makers)</span></li>
+</ul></div>
+
+<div class="card"><h3 style="font-size:.95rem;margin-bottom:10px">Calendar Confirmation &amp; CRM</h3>
+<ul class="checklist">
+<li><div class="check-box" onclick="toggleCheck(this)"></div><span class="item-text">Date, time, and location confirmed</span></li>
+<li><div class="check-box" onclick="toggleCheck(this)"></div><span class="item-text">All decision-makers confirmed to attend</span></li>
+<li><div class="check-box" onclick="toggleCheck(this)"></div><span class="item-text">Appointment is likely to hold</span></li>
+<li><div class="check-box" onclick="toggleCheck(this)"></div><span class="item-text">CRM notes are accurate and complete</span></li>
+<li><div class="check-box" onclick="toggleCheck(this)"></div><span class="item-text">Disposition and next steps documented</span></li>
+<li><div class="check-box" onclick="toggleCheck(this)"></div><span class="item-text">Another employee could understand the interaction from notes</span></li>
+</ul></div>
+
+<div class="card" style="margin-top:14px"><h3 style="font-size:.95rem;margin-bottom:10px">Observation Notes</h3>
+<textarea id="observationNotes" class="checklist-notes" placeholder="Real-time observations during the call..."></textarea>
+</div>
+
+<div class="checklist-actions">
+<button class="btn-clear" onclick="showClearConfirm('observation')">Clear Selections</button>
+<button class="btn-export" onclick="exportSection('observation','Live Call Observation')">Export</button>
+</div>
+
+<div class="ch-nav">
+<button onclick="navigateTo('precall')">&larr; Pre-Call Prep</button>
+<button onclick="navigateTo('scoring')">Supervisor Scoring &rarr;</button>
+</div>
+</div>
+
+<!-- ======================== SUPERVISOR SCORING ======================== -->
+<div class="page" id="page-scoring">
+<div class="ittt-section">
+<h2><span class="icon" style="background:var(--accent-dim);color:var(--accent)">&#11088;</span> Supervisor Scoring</h2>
+<p>Rate each competency on a 1-5 scale. Scores auto-calculate into an overall grade and readiness indicator.</p>
+</div>
+
+<div class="card" style="text-align:center">
+<div class="score-ring">
+<svg viewBox="0 0 120 120">
+<circle class="bg" cx="60" cy="60" r="52"/>
+<circle class="fill" id="scoreCircle" cx="60" cy="60" r="52" stroke-dasharray="326.73" stroke-dashoffset="326.73"/>
+</svg>
+<div class="score-text">
+<div class="score-num" id="scoreNum">0%</div>
+<div class="score-label" id="scoreLabel">No Scores</div>
+</div>
+</div>
+<div id="gradeBadge" class="grade-badge" style="display:none"></div>
+<div class="indicator-row" id="ragIndicators">
+<div class="indicator blue" id="indReadiness"><div class="ind-label">Readiness</div><div class="ind-value">--</div></div>
+<div class="indicator green" id="indStrength"><div class="ind-label">Top Strength</div><div class="ind-value">--</div></div>
+<div class="indicator yellow" id="indFocus"><div class="ind-label">Focus Area</div><div class="ind-value">--</div></div>
+</div>
+</div>
+
+<div class="card" style="overflow-x:auto">
+<table class="score-table" id="scoreTable">
+<thead><tr><th style="width:40%">Competency</th><th style="width:15%">Rating</th><th style="width:45%">Coach Notes</th></tr></thead>
+<tbody>
+<tr data-competency="Opening"><td>Opening &amp; Permission</td><td><div class="rating-group"><button class="rating-btn" data-val="1">1</button><button class="rating-btn" data-val="2">2</button><button class="rating-btn" data-val="3">3</button><button class="rating-btn" data-val="4">4</button><button class="rating-btn" data-val="5">5</button></div></td><td><input type="text" placeholder="Optional notes..." class="comp-notes"></td></tr>
+<tr data-competency="Rapport"><td>Rapport Building</td><td><div class="rating-group"><button class="rating-btn" data-val="1">1</button><button class="rating-btn" data-val="2">2</button><button class="rating-btn" data-val="3">3</button><button class="rating-btn" data-val="4">4</button><button class="rating-btn" data-val="5">5</button></div></td><td><input type="text" placeholder="Optional notes..." class="comp-notes"></td></tr>
+<tr data-competency="Discovery"><td>Discovery &amp; Questions</td><td><div class="rating-group"><button class="rating-btn" data-val="1">1</button><button class="rating-btn" data-val="2">2</button><button class="rating-btn" data-val="3">3</button><button class="rating-btn" data-val="4">4</button><button class="rating-btn" data-val="5">5</button></div></td><td><input type="text" placeholder="Optional notes..." class="comp-notes"></td></tr>
+<tr data-competency="Active Listening"><td>Active Listening</td><td><div class="rating-group"><button class="rating-btn" data-val="1">1</button><button class="rating-btn" data-val="2">2</button><button class="rating-btn" data-val="3">3</button><button class="rating-btn" data-val="4">4</button><button class="rating-btn" data-val="5">5</button></div></td><td><input type="text" placeholder="Optional notes..." class="comp-notes"></td></tr>
+<tr data-competency="Value"><td>Value Positioning</td><td><div class="rating-group"><button class="rating-btn" data-val="1">1</button><button class="rating-btn" data-val="2">2</button><button class="rating-btn" data-val="3">3</button><button class="rating-btn" data-val="4">4</button><button class="rating-btn" data-val="5">5</button></div></td><td><input type="text" placeholder="Optional notes..." class="comp-notes"></td></tr>
+<tr data-competency="Objections"><td>Objection Handling</td><td><div class="rating-group"><button class="rating-btn" data-val="1">1</button><button class="rating-btn" data-val="2">2</button><button class="rating-btn" data-val="3">3</button><button class="rating-btn" data-val="4">4</button><button class="rating-btn" data-val="5">5</button></div></td><td><input type="text" placeholder="Optional notes..." class="comp-notes"></td></tr>
+<tr data-competency="Close"><td>Appointment Close</td><td><div class="rating-group"><button class="rating-btn" data-val="1">1</button><button class="rating-btn" data-val="2">2</button><button class="rating-btn" data-val="3">3</button><button class="rating-btn" data-val="4">4</button><button class="rating-btn" data-val="5">5</button></div></td><td><input type="text" placeholder="Optional notes..." class="comp-notes"></td></tr>
+<tr data-competency="Calendar"><td>Calendar Confirmation</td><td><div class="rating-group"><button class="rating-btn" data-val="1">1</button><button class="rating-btn" data-val="2">2</button><button class="rating-btn" data-val="3">3</button><button class="rating-btn" data-val="4">4</button><button class="rating-btn" data-val="5">5</button></div></td><td><input type="text" placeholder="Optional notes..." class="comp-notes"></td></tr>
+<tr data-competency="CRM"><td>CRM Documentation</td><td><div class="rating-group"><button class="rating-btn" data-val="1">1</button><button class="rating-btn" data-val="2">2</button><button class="rating-btn" data-val="3">3</button><button class="rating-btn" data-val="4">4</button><button class="rating-btn" data-val="5">5</button></div></td><td><input type="text" placeholder="Optional notes..." class="comp-notes"></td></tr>
+<tr data-competency="Tone"><td>Professional Tone &amp; Energy</td><td><div class="rating-group"><button class="rating-btn" data-val="1">1</button><button class="rating-btn" data-val="2">2</button><button class="rating-btn" data-val="3">3</button><button class="rating-btn" data-val="4">4</button><button class="rating-btn" data-val="5">5</button></div></td><td><input type="text" placeholder="Optional notes..." class="comp-notes"></td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="ch-nav">
+<button onclick="navigateTo('observation')">&larr; Live Call Observation</button>
+<button onclick="navigateTo('behavioral')">Behavioral Observations &rarr;</button>
+</div>
+</div>
+
+<!-- ======================== BEHAVIORAL OBSERVATIONS ======================== -->
+<div class="page" id="page-behavioral">
+<div class="ittt-section">
+<h2><span class="icon" style="background:rgba(139,92,246,.15);color:var(--purple)">&#128100;</span> Behavioral Observations</h2>
+<p>Score each behavioral competency on a 1-5 scale. These capture how the ISR shows up, not just what they do.</p>
+</div>
+
+<div class="card">
+<h3 style="font-size:.95rem;margin-bottom:14px">Competency Ratings</h3>
+
+<div class="coach-bar"><div class="bar-header"><span class="bar-label">Coachability</span><span class="bar-val" id="coachVal">0 / 5</span></div><div class="bar-track"><div class="bar-fill" id="coachFill" style="width:0%;background:var(--accent)"></div></div></div>
+<div class="coach-bar"><div class="bar-header"><span class="bar-label">Confidence</span><span class="bar-val" id="confVal">0 / 5</span></div><div class="bar-track"><div class="bar-fill" id="confFill" style="width:0%;background:var(--accent)"></div></div></div>
+<div class="coach-bar"><div class="bar-header"><span class="bar-label">Pace &amp; Control</span><span class="bar-val" id="paceVal">0 / 5</span></div><div class="bar-track"><div class="bar-fill" id="paceFill" style="width:0%;background:var(--accent)"></div></div></div>
+<div class="coach-bar"><div class="bar-header"><span class="bar-label">Empathy</span><span class="bar-val" id="empathyVal">0 / 5</span></div><div class="bar-track"><div class="bar-fill" id="empathyFill" style="width:0%;background:var(--accent)"></div></div></div>
+<div class="coach-bar"><div class="bar-header"><span class="bar-label">Script Adherence</span><span class="bar-val" id="scriptVal">0 / 5</span></div><div class="bar-track"><div class="bar-fill" id="scriptFill" style="width:0%;background:var(--accent)"></div></div></div>
+<div class="coach-bar"><div class="bar-header"><span class="bar-label">Adaptability</span><span class="bar-val" id="adaptVal">0 / 5</span></div><div class="bar-track"><div class="bar-fill" id="adaptFill" style="width:0%;background:var(--accent)"></div></div></div>
+</div>
+
+<div class="card" style="overflow-x:auto">
+<table class="score-table" id="behaviorTable">
+<thead><tr><th style="width:40%">Behavior</th><th style="width:15%">Rating</th><th style="width:45%">Observation Notes</th></tr></thead>
+<tbody>
+<tr data-behavior="coachability"><td>Coachability</td><td><div class="rating-group"><button class="rating-btn bval" data-val="1">1</button><button class="rating-btn bval" data-val="2">2</button><button class="rating-btn bval" data-val="3">3</button><button class="rating-btn bval" data-val="4">4</button><button class="rating-btn bval" data-val="5">5</button></div></td><td><input type="text" placeholder="Optional notes..." class="beh-notes"></td></tr>
+<tr data-behavior="confidence"><td>Confidence</td><td><div class="rating-group"><button class="rating-btn bval" data-val="1">1</button><button class="rating-btn bval" data-val="2">2</button><button class="rating-btn bval" data-val="3">3</button><button class="rating-btn bval" data-val="4">4</button><button class="rating-btn bval" data-val="5">5</button></div></td><td><input type="text" placeholder="Optional notes..." class="beh-notes"></td></tr>
+<tr data-behavior="pace"><td>Pace &amp; Control</td><td><div class="rating-group"><button class="rating-btn bval" data-val="1">1</button><button class="rating-btn bval" data-val="2">2</button><button class="rating-btn bval" data-val="3">3</button><button class="rating-btn bval" data-val="4">4</button><button class="rating-btn bval" data-val="5">5</button></div></td><td><input type="text" placeholder="Optional notes..." class="beh-notes"></td></tr>
+<tr data-behavior="empathy"><td>Empathy</td><td><div class="rating-group"><button class="rating-btn bval" data-val="1">1</button><button class="rating-btn bval" data-val="2">2</button><button class="rating-btn bval" data-val="3">3</button><button class="rating-btn bval" data-val="4">4</button><button class="rating-btn bval" data-val="5">5</button></div></td><td><input type="text" placeholder="Optional notes..." class="beh-notes"></td></tr>
+<tr data-behavior="script"><td>Script Adherence</td><td><div class="rating-group"><button class="rating-btn bval" data-val="1">1</button><button class="rating-btn bval" data-val="2">2</button><button class="rating-btn bval" data-val="3">3</button><button class="rating-btn bval" data-val="4">4</button><button class="rating-btn bval" data-val="5">5</button></div></td><td><input type="text" placeholder="Optional notes..." class="beh-notes"></td></tr>
+<tr data-behavior="adaptability"><td>Adaptability</td><td><div class="rating-group"><button class="rating-btn bval" data-val="1">1</button><button class="rating-btn bval" data-val="2">2</button><button class="rating-btn bval" data-val="3">3</button><button class="rating-btn bval" data-val="4">4</button><button class="rating-btn bval" data-val="5">5</button></div></td><td><input type="text" placeholder="Optional notes..." class="beh-notes"></td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="card"><h3 style="font-size:.95rem;margin-bottom:10px">Behavioral Notes</h3>
+<textarea id="behaviorNotes" class="checklist-notes" placeholder="Additional behavioral observations..."></textarea>
+</div>
+
+<div class="ch-nav">
+<button onclick="navigateTo('scoring')">&larr; Supervisor Scoring</button>
+<button onclick="navigateTo('debrief')">Post-Call Debrief &rarr;</button>
+</div>
+</div>
+
+<!-- ======================== POST-CALL DEBRIEF ======================== -->
+<div class="page" id="page-debrief">
+<div class="ittt-section">
+<h2><span class="icon" style="background:rgba(34,197,94,.15);color:var(--success)">&#128172;</span> Post-Call Coaching Debrief</h2>
+<p>Use this structure after each observed call. Self-assessment first, then coaching.</p>
+</div>
+
+<div class="card">
+<h3 style="font-size:.95rem;margin-bottom:14px">Self-Assessment</h3>
+<div class="block block-if"><div class="label">Ask the ISR</div>
+<p style="font-size:.95rem;font-style:italic">"How do you think that call went?"</p>
+<p style="margin-top:8px">Let them evaluate themselves before you offer feedback. This builds self-awareness and trust.</p></div>
+<textarea id="selfAssess" class="checklist-notes" placeholder="ISR's self-assessment..." style="margin-top:12px"></textarea>
+</div>
+
+<div class="card">
+<h3 style="font-size:.95rem;margin-bottom:14px">Strengths</h3>
+<div class="block block-notice"><div class="label">Reinforce 2-3 behaviors to continue</div>
+<p>Be specific. Vague praise doesn't change behavior.</p></div>
+<textarea id="strengths" class="checklist-notes" placeholder="What went well that they should repeat?"></textarea>
+</div>
+
+<div class="card">
+<h3 style="font-size:.95rem;margin-bottom:14px">Biggest Opportunity</h3>
+<div class="block block-mistake"><div class="label">Focus on the single highest-impact improvement</div>
+<p>One focused improvement beats ten scattered corrections.</p></div>
+<textarea id="opportunity" class="checklist-notes" placeholder="The one thing that would make the biggest difference..."></textarea>
+</div>
+
+<div class="card">
+<h3 style="font-size:.95rem;margin-bottom:14px">Live Role Play</h3>
+<div class="block block-approach"><div class="label">Practice that portion immediately</div>
+<p>Have the ISR re-do the objection, the opening, or the close right now. Muscle memory beats memorization.</p></div>
+<textarea id="rolePlay" class="checklist-notes" placeholder="What was practiced and how did it go?"></textarea>
+</div>
+
+<div class="card">
+<h3 style="font-size:.95rem;margin-bottom:14px">Next 10 Calls Commitment</h3>
+<div class="block block-principle"><div class="label">One Measurable Behavior</div>
+<p>Agree on one specific behavior to implement on the next 10 calls. Make it observable and measurable.</p></div>
+<textarea id="commitment" class="checklist-notes" placeholder="One specific, measurable behavior for the next 10 calls..."></textarea>
+</div>
+
+<div class="card">
+<h3 style="font-size:.95rem;margin-bottom:10px">Debrief Notes</h3>
+<textarea id="debriefNotes" class="checklist-notes" placeholder="Additional coaching notes..."></textarea>
+</div>
+
+<div class="ch-nav">
+<button onclick="navigateTo('behavioral')">&larr; Behavioral Observations</button>
+<button onclick="navigateTo('actionplan')">Action Plan &rarr;</button>
+</div>
+</div>
+
+<!-- ======================== ACTION PLAN ======================== -->
+<div class="page" id="page-actionplan">
+<div class="ittt-section">
+<h2><span class="icon" style="background:var(--accent-dim);color:var(--accent)">&#9200;</span> SMART Action Plan</h2>
+<p>Turn coaching into measurable outcomes. Each goal should be Specific, Measurable, Achievable, Relevant, and Time-bound.</p>
+</div>
+
+<div class="card">
+<div class="block block-principle" style="margin-bottom:18px"><div class="label">The 30-Day Improvement Cycle</div>
+<p>Week 1: Baseline &amp; Goal Setting &rarr; Week 2: Skill Focus &rarr; Week 3: Application &rarr; Week 4: Reinforcement</p></div>
+
+<div style="overflow-x:auto">
+<table class="plan-table" id="actionTable">
+<thead><tr><th style="width:25%">Goal</th><th style="width:30%">Action Steps</th><th style="width:15%">Due Date</th><th style="width:15%">Follow-Up</th><th style="width:15%">Status</th></tr></thead>
+<tbody>
+<tr><td><input type="text" placeholder="e.g., Improve discovery questions" class="plan-goal"></td><td><textarea placeholder="Specific actions to achieve this goal..." rows="2" class="plan-action"></textarea></td><td><input type="date" class="plan-due"></td><td><input type="date" class="plan-followup"></td><td><select class="plan-status" style="background:var(--glass);border:1px solid var(--glass-border);border-radius:6px;padding:6px 8px;color:var(--text);font-size:.82rem;width:100%"><option value="pending">Pending</option><option value="in-progress">In Progress</option><option value="complete">Complete</option></select></td></tr>
+<tr><td><input type="text" placeholder="e.g., Reduce 'need to think' objections" class="plan-goal"></td><td><textarea placeholder="Specific actions to achieve this goal..." rows="2" class="plan-action"></textarea></td><td><input type="date" class="plan-due"></td><td><input type="date" class="plan-followup"></td><td><select class="plan-status" style="background:var(--glass);border:1px solid var(--glass-border);border-radius:6px;padding:6px 8px;color:var(--text);font-size:.82rem;width:100%"><option value="pending">Pending</option><option value="in-progress">In Progress</option><option value="complete">Complete</option></select></td></tr>
+<tr><td><input type="text" placeholder="e.g., Strengthen close confidence" class="plan-goal"></td><td><textarea placeholder="Specific actions to achieve this goal..." rows="2" class="plan-action"></textarea></td><td><input type="date" class="plan-due"></td><td><input type="date" class="plan-followup"></td><td><select class="plan-status" style="background:var(--glass);border:1px solid var(--glass-border);border-radius:6px;padding:6px 8px;color:var(--text);font-size:.82rem;width:100%"><option value="pending">Pending</option><option value="in-progress">In Progress</option><option value="complete">Complete</option></select></td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div class="card">
+<h3 style="font-size:.95rem;margin-bottom:10px">30-Day Follow-Up Notes</h3>
+<textarea id="followupNotes" class="checklist-notes" placeholder="Progress notes at 30-day follow-up..."></textarea>
+</div>
+
+<div class="ch-nav">
+<button onclick="navigateTo('debrief')">&larr; Post-Call Debrief</button>
+<button onclick="navigateTo('notes')">Manager Notes &rarr;</button>
+</div>
+</div>
+
+<!-- ======================== MANAGER NOTES ======================== -->
+<div class="page" id="page-notes">
+<div class="ittt-section">
+<h2><span class="icon" style="background:var(--accent-dim);color:var(--accent)">&#128221;</span> Manager Notes</h2>
+<p>Unlimited, timestamped notes for ongoing coaching conversations, performance tracking, and PIP documentation.</p>
+</div>
+
+<div class="card">
+<div class="note-input-area">
+<textarea id="noteInput" placeholder="Type your observation or coaching note..."></textarea>
+<button onclick="addNote()">Add Note</button>
+</div>
+<div id="notesList"></div>
+</div>
+
+<div class="checklist-actions" style="margin-top:16px">
+<button class="btn-clear" onclick="showClearConfirm('notes')">Clear All Notes</button>
+<button class="btn-export" onclick="exportSection('notes','Manager Notes')">Export</button>
+</div>
+
+<div class="ch-nav">
+<button onclick="navigateTo('actionplan')">&larr; Action Plan</button>
+<button onclick="navigateTo('report')">Coaching Report &rarr;</button>
+</div>
+</div>
+
+<!-- ======================== COACHING REPORT ======================== -->
+<div class="page" id="page-report">
+<div class="ittt-section">
+<h2><span class="icon" style="background:var(--accent-dim);color:var(--accent)">&#128196;</span> Coaching Report</h2>
+<p>Professional printable report for performance reviews, PIPs, and documentation. Click "Generate Report" to compile all data.</p>
+</div>
+
+<div class="card" id="reportContent">
+<div style="text-align:center;margin-bottom:20px">
+<h2 style="color:var(--accent);margin-bottom:4px">Renewal by Andersen</h2>
+<p style="font-size:.88rem;color:var(--text-dim)">Sales Supervisor Ride-Along Report</p>
+<p style="font-size:.78rem;color:var(--text-muted)" id="reportDate"></p>
+</div>
+
+<div id="reportSections"></div>
+</div>
+
+<div class="checklist-actions">
+<button class="btn-export" onclick="generateReport()">Generate Report</button>
+<button class="btn-export" onclick="printReport()">Print / PDF</button>
+<button class="btn-export" onclick="exportReportDownload()">Download</button>
+</div>
+
+<div class="ch-nav">
+<button onclick="navigateTo('notes')">&larr; Manager Notes</button>
+<button disabled>End of Toolkit</button>
+</div>
+</div>
+
+</div><!-- end .main -->
+</div><!-- end .app -->
+
+<!-- Modals -->
+<div class="modal-overlay" id="clearModal">
+<div class="modal-box">
+<p>Are you sure you want to clear everything?</p>
+<div class="modal-actions">
+<button class="modal-cancel" onclick="closeModal('clearModal')">Cancel</button>
+<button class="modal-confirm" id="clearConfirmBtn">Clear</button>
+</div>
+</div>
+</div>
+
+<div class="modal-overlay" id="exportModal">
+<div class="modal-box">
+<p>Export as:</p>
+<div class="modal-actions">
+<button class="modal-cancel" onclick="closeModal('exportModal')">Cancel</button>
+<button class="modal-confirm" id="exportEmailBtn">Email</button>
+<button class="modal-confirm" id="exportDownloadBtn">Download</button>
+</div>
+</div>
+</div>
+
+<script>
+/* ===== NAVIGATION ===== */
+function navigateTo(page){
+document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active')});
+document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('active')});
+var t=document.getElementById('page-'+page);
+if(t)t.classList.add('active');
+var n=document.querySelector('.nav-item[data-page="'+page+'"]');
+if(n)n.classList.add('active');
+document.querySelector('.sidebar').classList.remove('open');
+window.scrollTo(0,0);
+updateProgress();
+}
+document.querySelectorAll('.nav-item').forEach(function(item){
+item.addEventListener('click',function(){navigateTo(item.dataset.page)});
+});
+
+/* ===== CARDS ===== */
+function toggleCard(h){h.closest('.ittt-card').classList.toggle('open')}
+
+/* ===== CHECKBOXES ===== */
+function toggleCheck(b){
+b.classList.toggle('checked');
+var t=b.nextElementSibling;
+if(t)t.classList.toggle('checked-text');
+saveState();
+updateProgress();
+}
+
+/* ===== PROGRESS ===== */
+function updateProgress(){
+var total=document.querySelectorAll('.check-box').length;
+var checked=document.querySelectorAll('.check-box.checked').length;
+var pct=total?Math.round((checked/total)*100):0;
+document.getElementById('globalProgress').style.width=pct+'%';
+}
+
+/* ===== LOCAL STORAGE ===== */
+function saveState(){
+var c=[];
+document.querySelectorAll('.check-box').forEach(function(b){c.push(b.classList.contains('checked'))});
+localStorage.setItem('renewal-checks',JSON.stringify(c));
+var scores=[];
+document.querySelectorAll('#scoreTable .rating-btn').forEach(function(b){scores.push(b.classList.contains('active')?parseInt(b.dataset.val):0)});
+localStorage.setItem('renewal-scores',JSON.stringify(scores));
+var behav=[];
+document.querySelectorAll('#behaviorTable .rating-btn').forEach(function(b){behav.push(b.classList.contains('active')?parseInt(b.dataset.val):0)});
+localStorage.setItem('renewal-behav',JSON.stringify(behav));
+var notes={};
+notes.precall=document.getElementById('precallNotes')?document.getElementById('precallNotes').value:'';
+notes.observation=document.getElementById('observationNotes')?document.getElementById('observationNotes').value:'';
+notes.behavior=document.getElementById('behaviorNotes')?document.getElementById('behaviorNotes').value:'';
+notes.selfAssess=document.getElementById('selfAssess')?document.getElementById('selfAssess').value:'';
+notes.strengths=document.getElementById('strengths')?document.getElementById('strengths').value:'';
+notes.opportunity=document.getElementById('opportunity')?document.getElementById('opportunity').value:'';
+notes.rolePlay=document.getElementById('rolePlay')?document.getElementById('rolePlay').value:'';
+notes.commitment=document.getElementById('commitment')?document.getElementById('commitment').value:'';
+notes.debriefNotes=document.getElementById('debriefNotes')?document.getElementById('debriefNotes').value:'';
+notes.followupNotes=document.getElementById('followupNotes')?document.getElementById('followupNotes').value:'';
+localStorage.setItem('renewal-notes',JSON.stringify(notes));
+localStorage.setItem('renewal-manager-notes',JSON.stringify(managerNotes));
+}
+
+function loadState(){
+try{
+var d=JSON.parse(localStorage.getItem('renewal-checks'));
+if(d)document.querySelectorAll('.check-box').forEach(function(b,i){
+if(d[i]){b.classList.add('checked');var t=b.nextElementSibling;if(t)t.classList.add('checked-text')}
+});
+}catch(e){}
+try{
+var s=JSON.parse(localStorage.getItem('renewal-scores'));
+if(s)document.querySelectorAll('#scoreTable .rating-btn').forEach(function(b,i){
+if(s[i]&&parseInt(b.dataset.val)===s[i]){b.classList.add('active')}
+});
+}catch(e){}
+try{
+var bh=JSON.parse(localStorage.getItem('renewal-behav'));
+if(bh)document.querySelectorAll('#behaviorTable .rating-btn').forEach(function(b,i){
+if(bh[i]&&parseInt(b.dataset.val)===bh[i]){b.classList.add('active')}
+});
+}catch(e){}
+try{
+var n=JSON.parse(localStorage.getItem('renewal-notes'));
+if(n){
+if(n.precall&&document.getElementById('precallNotes'))document.getElementById('precallNotes').value=n.precall;
+if(n.observation&&document.getElementById('observationNotes'))document.getElementById('observationNotes').value=n.observation;
+if(n.behavior&&document.getElementById('behaviorNotes'))document.getElementById('behaviorNotes').value=n.behavior;
+if(n.selfAssess&&document.getElementById('selfAssess'))document.getElementById('selfAssess').value=n.selfAssess;
+if(n.strengths&&document.getElementById('strengths'))document.getElementById('strengths').value=n.strengths;
+if(n.opportunity&&document.getElementById('opportunity'))document.getElementById('opportunity').value=n.opportunity;
+if(n.rolePlay&&document.getElementById('rolePlay'))document.getElementById('rolePlay').value=n.rolePlay;
+if(n.commitment&&document.getElementById('commitment'))document.getElementById('commitment').value=n.commitment;
+if(n.debriefNotes&&document.getElementById('debriefNotes'))document.getElementById('debriefNotes').value=n.debriefNotes;
+if(n.followupNotes&&document.getElementById('followupNotes'))document.getElementById('followupNotes').value=n.followupNotes;
+}
+}catch(e){}
+try{
+var mn=JSON.parse(localStorage.getItem('renewal-manager-notes'));
+if(mn){managerNotes=mn;renderNotes()}
+}catch(e){}
+updateProgress();
+calculateScores();
+calculateBehaviorScores();
+}
+loadState();
+
+/* Auto-save textarea inputs */
+document.querySelectorAll('.checklist-notes').forEach(function(el){
+el.addEventListener('input',function(){saveState()});
+});
+
+/* ===== RATING BUTTONS (Scoring) ===== */
+document.querySelectorAll('#scoreTable .rating-btn').forEach(function(btn){
+btn.addEventListener('click',function(){
+var group=btn.parentElement;
+group.querySelectorAll('.rating-btn').forEach(function(b){b.classList.remove('active')});
+btn.classList.add('active');
+saveState();
+calculateScores();
+});
+});
+
+function calculateScores(){
+var rows=document.querySelectorAll('#scoreTable tbody tr');
+var total=0,count=0,competencies={};
+var compNames={};
+rows.forEach(function(row){
+var name=row.dataset.competency;
+var active=row.querySelector('.rating-btn.active');
+var val=active?parseInt(active.dataset.val):0;
+if(val>0){total+=val;count++;competencies[name]=val;compNames[name]=row.querySelector('td').textContent.trim()}
+});
+var pct=count?Math.round((total/(count*5))*100):0;
+var circle=document.getElementById('scoreCircle');
+var circumference=326.73;
+var offset=circumference-(pct/100)*circumference;
+circle.style.strokeDashoffset=offset;
+document.getElementById('scoreNum').textContent=pct+'%';
+var label,cls;
+if(pct>=90){label='Ready for Independent Production';cls='grade-a'}
+else if(pct>=75){label='Solid Foundation - Minor Refinement';cls='grade-b'}
+else if(pct>=60){label='Developing - Coaching Required';cls='grade-c'}
+else{label='Needs Significant Development';cls='grade-d'}
+document.getElementById('scoreLabel').textContent=label;
+var badge=document.getElementById('gradeBadge');
+badge.style.display='inline-block';
+badge.textContent=label;
+badge.className='grade-badge '+cls;
+circle.style.stroke=pct>=90?'var(--success)':pct>=75?'var(--accent)':pct>=60?'var(--warning)':'var(--danger)';
+/* RAG */
+var readiness=document.getElementById('indReadiness');
+readiness.className='indicator '+(pct>=75?'green':pct>=60?'yellow':'red');
+readiness.querySelector('.ind-value').textContent=label.split(' - ')[0].split(' - ')[0];
+/* Strengths & Focus */
+var strengthComp='',focusComp='',maxVal=0,minVal=6;
+for(var k in competencies){
+if(competencies[k]>maxVal){maxVal=competencies[k];strengthComp=compNames[k]}
+if(competencies[k]<minVal){minVal=competencies[k];focusComp=compNames[k]}
+}
+if(strengthComp)document.getElementById('indStrength').querySelector('.ind-value').textContent=strengthComp;
+if(focusComp)document.getElementById('indFocus').querySelector('.ind-value').textContent=focusComp;
+}
+
+/* ===== RATING BUTTONS (Behavioral) ===== */
+document.querySelectorAll('#behaviorTable .rating-btn').forEach(function(btn){
+btn.addEventListener('click',function(){
+var group=btn.parentElement;
+group.querySelectorAll('.rating-btn').forEach(function(b){b.classList.remove('active')});
+btn.classList.add('active');
+saveState();
+calculateBehaviorScores();
+});
+});
+
+function calculateBehaviorScores(){
+var map={coachability:'coach',confidence:'conf',pace:'pace',empathy:'empathy',script:'script',adaptability:'adapt'};
+for(var key in map){
+var row=document.querySelector('#behaviorTable tr[data-behavior="'+key+'"]');
+if(!row)continue;
+var active=row.querySelector('.rating-btn.active');
+var val=active?parseInt(active.dataset.val):0;
+var fill=document.getElementById(map[key]+'Fill');
+var valEl=document.getElementById(map[key]+'Val');
+if(fill){fill.style.width=(val/5*100)+'%';fill.style.background=val>=4?'var(--success)':val>=3?'var(--accent)':val>=2?'var(--warning)':'var(--danger)'}
+if(valEl)valEl.textContent=val+' / 5';
+}
+}
+
+/* ===== MANAGER NOTES ===== */
+var managerNotes=[];
+function addNote(){
+var input=document.getElementById('noteInput');
+var text=input.value.trim();
+if(!text)return;
+managerNotes.unshift({text:text,time:new Date().toLocaleString()});
+input.value='';
+saveState();
+renderNotes();
+}
+function renderNotes(){
+var list=document.getElementById('notesList');
+if(!list)return;
+list.innerHTML='';
+managerNotes.forEach(function(note,i){
+var div=document.createElement('div');
+div.className='note-entry';
+div.innerHTML='<div class="note-time">'+note.time+'</div><div class="note-content">'+escapeHtml(note.text)+'</div>';
+list.appendChild(div);
+});
+}
+function escapeHtml(t){var d=document.createElement('div');d.textContent=t;return d.innerHTML}
+
+/* ===== CLEAR ===== */
+var clearTarget='';
+function showClearConfirm(target){
+clearTarget=target||'all';
+document.getElementById('clearModal').classList.add('show');
+}
+document.getElementById('clearConfirmBtn').addEventListener('click',function(){
+if(clearTarget==='notes'){
+managerNotes=[];
+saveState();
+renderNotes();
+}else if(clearTarget==='precall'||clearTarget==='observation'){
+var section=document.getElementById('page-'+clearTarget);
+if(section){
+section.querySelectorAll('.check-box').forEach(function(b){b.classList.remove('checked');var t=b.nextElementSibling;if(t)t.classList.remove('checked-text')});
+var notes=section.querySelector('.checklist-notes');
+if(notes)notes.value='';
+}
+}else{
+document.querySelectorAll('.check-box').forEach(function(b){b.classList.remove('checked');var t=b.nextElementSibling;if(t)t.classList.remove('checked-text')});
+document.querySelectorAll('.checklist-notes').forEach(function(n){n.value=''});
+document.querySelectorAll('#scoreTable .rating-btn').forEach(function(b){b.classList.remove('active')});
+document.querySelectorAll('#behaviorTable .rating-btn').forEach(function(b){b.classList.remove('active')});
+managerNotes=[];
+renderNotes();
+calculateScores();
+calculateBehaviorScores();
+}
+saveState();
+updateProgress();
+closeModal('clearModal');
+});
+
+/* ===== EXPORT ===== */
+var exportTarget='',exportTitle='';
+function exportSection(target,title){
+exportTarget=target;exportTitle=title;
+document.getElementById('exportModal').classList.add('show');
+}
+document.getElementById('exportEmailBtn').addEventListener('click',function(){
+closeModal('exportModal');
+var md=buildSectionMarkdown(exportTarget,exportTitle);
+var subject=encodeURIComponent(exportTitle);
+var body=encodeURIComponent(md);
+window.location.href='mailto:?subject='+subject+'&body='+body;
+});
+document.getElementById('exportDownloadBtn').addEventListener('click',function(){
+closeModal('exportModal');
+var md=buildSectionMarkdown(exportTarget,exportTitle);
+var blob=new Blob([md],{type:'text/markdown'});
+var a=document.createElement('a');
+a.href=URL.createObjectURL(blob);
+a.download=exportTitle.toLowerCase().replace(/[^a-z0-9]+/g,'-')+'.md';
+a.click();
+URL.revokeObjectURL(a.href);
+});
+
+function buildSectionMarkdown(target,title){
+var lines=['# '+title,''];
+if(target==='precall'||target==='observation'){
+var section=document.getElementById('page-'+target);
+if(section){
+section.querySelectorAll('.card').forEach(function(card){
+var h=card.querySelector('h3');
+if(!h)return;
+lines.push('## '+h.textContent);
+card.querySelectorAll('li').forEach(function(li){
+var checked=li.querySelector('.check-box').classList.contains('checked');
+var text=li.querySelector('.item-text').textContent;
+lines.push((checked?'- [x] ':'- [ ] ')+text);
+});
+lines.push('');
+});
+var notes=section.querySelector('.checklist-notes');
+if(notes&&notes.value.trim()){lines.push('## Notes');lines.push(notes.value.trim());lines.push('')}
+}
+}else if(target==='notes'){
+lines.push('## Manager Notes');
+managerNotes.forEach(function(n){lines.push('**'+n.time+'**');lines.push(n.text);lines.push('')});
+}
+return lines.join('\n');
+}
+
+/* ===== MODAL ===== */
+function closeModal(id){document.getElementById(id).classList.remove('show')}
+
+/* ===== REPORT ===== */
+function generateReport(){
+var now=new Date();
+document.getElementById('reportDate').textContent=now.toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+var html='';
+/* Scoring */
+var scoreRows=document.querySelectorAll('#scoreTable tbody tr');
+var total=0,count=0;
+var scoreHtml='<h3 style="font-size:1.05rem;margin:18px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--glass-border)">Supervisor Scoring</h3><table class="score-table" style="width:100%"><thead><tr><th style="text-align:left;padding:8px;border-bottom:1px solid var(--glass-border);font-size:.75rem;color:var(--text-muted)">Competency</th><th style="text-align:center;padding:8px;border-bottom:1px solid var(--glass-border);font-size:.75rem;color:var(--text-muted)">Rating</th><th style="text-align:left;padding:8px;border-bottom:1px solid var(--glass-border);font-size:.75rem;color:var(--text-muted)">Notes</th></tr></thead><tbody>';
+scoreRows.forEach(function(row){
+var name=row.querySelector('td').textContent.trim();
+var active=row.querySelector('.rating-btn.active');
+var val=active?active.dataset.val:'--';
+var notes=row.querySelector('.comp-notes').value||'';
+if(active){total+=parseInt(val);count++}
+scoreHtml+='<tr><td style="padding:8px;border-bottom:1px solid var(--glass-border);font-size:.85rem">'+name+'</td><td style="padding:8px;border-bottom:1px solid var(--glass-border);text-align:center;font-weight:700;font-size:.95rem">'+val+'</td><td style="padding:8px;border-bottom:1px solid var(--glass-border);font-size:.85rem">'+escapeHtml(notes)+'</td></tr>';
+});
+var pct=count?Math.round((total/(count*5))*100):0;
+scoreHtml+='</tbody></table><p style="margin-top:10px;font-weight:600;font-size:.95rem">Overall Score: '+pct+'%</p>';
+html+=scoreHtml;
+/* Behavioral */
+var behRows=document.querySelectorAll('#behaviorTable tbody tr');
+var behHtml='<h3 style="font-size:1.05rem;margin:18px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--glass-border)">Behavioral Observations</h3><table class="score-table" style="width:100%"><thead><tr><th style="text-align:left;padding:8px;border-bottom:1px solid var(--glass-border);font-size:.75rem;color:var(--text-muted)">Behavior</th><th style="text-align:center;padding:8px;border-bottom:1px solid var(--glass-border);font-size:.75rem;color:var(--text-muted)">Rating</th><th style="text-align:left;padding:8px;border-bottom:1px solid var(--glass-border);font-size:.75rem;color:var(--text-muted)">Notes</th></tr></thead><tbody>';
+behRows.forEach(function(row){
+var name=row.querySelector('td').textContent.trim();
+var active=row.querySelector('.rating-btn.active');
+var val=active?active.dataset.val:'--';
+var notes=row.querySelector('.beh-notes').value||'';
+behHtml+='<tr><td style="padding:8px;border-bottom:1px solid var(--glass-border);font-size:.85rem">'+name+'</td><td style="padding:8px;border-bottom:1px solid var(--glass-border);text-align:center;font-weight:700;font-size:.95rem">'+val+'</td><td style="padding:8px;border-bottom:1px solid var(--glass-border);font-size:.85rem">'+escapeHtml(notes)+'</td></tr>';
+});
+behHtml+='</tbody></table>';
+html+=behHtml;
+/* Debrief */
+var debriefFields=[
+{label:'Self-Assessment',id:'selfAssess'},
+{label:'Strengths',id:'strengths'},
+{label:'Biggest Opportunity',id:'opportunity'},
+{label:'Live Role Play',id:'rolePlay'},
+{label:'Next 10 Calls Commitment',id:'commitment'},
+{label:'Debrief Notes',id:'debriefNotes'}
+];
+var dHtml='<h3 style="font-size:1.05rem;margin:18px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--glass-border)">Post-Call Debrief</h3>';
+debriefFields.forEach(function(f){
+var val=document.getElementById(f.id)?document.getElementById(f.id).value:'';
+if(val.trim()){
+dHtml+='<div style="margin-bottom:12px"><strong style="font-size:.85rem;color:var(--accent)">'+f.label+'</strong><p style="font-size:.85rem;margin-top:4px">'+escapeHtml(val)+'</p></div>';
+}
+});
+html+=dHtml;
+/* Action Plan */
+var planRows=document.querySelectorAll('#actionTable tbody tr');
+var aHtml='<h3 style="font-size:1.05rem;margin:18px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--glass-border)">Action Plan</h3>';
+var hasPlan=false;
+planRows.forEach(function(row){
+var goal=row.querySelector('.plan-goal').value;
+var action=row.querySelector('.plan-action').value;
+var due=row.querySelector('.plan-due').value;
+var status=row.querySelector('.plan-status').value;
+if(goal.trim()){hasPlan=true;aHtml+='<div style="margin-bottom:10px;padding:10px;background:var(--glass);border:1px solid var(--glass-border);border-radius:8px"><strong style="font-size:.85rem">'+escapeHtml(goal)+'</strong><p style="font-size:.82rem;color:var(--text-dim);margin-top:4px">'+escapeHtml(action)+'</p><p style="font-size:.78rem;color:var(--text-muted);margin-top:4px">Due: '+due+' | Status: '+status+'</p></div>';}
+});
+if(!hasPlan)aHtml+='<p style="font-size:.85rem;color:var(--text-muted)">No action items defined.</p>';
+html+=aHtml;
+/* Manager Notes */
+if(managerNotes.length>0){
+var nHtml='<h3 style="font-size:1.05rem;margin:18px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--glass-border)">Manager Notes</h3>';
+managerNotes.forEach(function(n){nHtml+='<div style="margin-bottom:8px"><span style="font-size:.75rem;color:var(--text-muted)">'+n.time+'</span><p style="font-size:.85rem">'+escapeHtml(n.text)+'</p></div>'});
+html+=nHtml;
+}
+document.getElementById('reportSections').innerHTML=html;
+}
+
+function printReport(){
+generateReport();
+setTimeout(function(){window.print()},300);
+}
+
+function exportReportDownload(){
+generateReport();
+var content=document.getElementById('reportContent').innerText;
+var blob=new Blob([content],{type:'text/plain'});
+var a=document.createElement('a');
+a.href=URL.createObjectURL(blob);
+a.download='coaching-report.md';
+a.click();
+URL.revokeObjectURL(a.href);
+}
+
+/* ===== LOGIN ===== */
+var _c={'Admin':'Morgan12','Guest':'Renewal84'};
+function attemptLogin(){
+var u=document.getElementById('loginUser').value.trim();
+var p=document.getElementById('loginPass').value;
+var e=document.getElementById('loginError');
+if(_c[u]===p){e.textContent='';revealApp()}
+else{e.textContent='Invalid credentials. Check spelling and capitalization.';document.getElementById('loginPass').value=''}
+}
+document.getElementById('loginPass').addEventListener('keydown',function(ev){if(ev.key==='Enter')attemptLogin()});
+document.getElementById('loginUser').addEventListener('keydown',function(ev){if(ev.key==='Enter')document.getElementById('loginPass').focus()});
+function revealApp(){
+var o=document.getElementById('loginOverlay');
+o.classList.add('fade-out');
+document.querySelector('.app').classList.remove('hidden');
+setTimeout(function(){o.style.display='none'},900);
+}
+
+/* ===== KEYBOARD NAV ===== */
+document.addEventListener('keydown',function(e){
+if(e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA'||e.target.tagName==='SELECT')return;
+var pages=['dashboard','precall','observation','scoring','behavioral','debrief','actionplan','notes','report'];
+var current=document.querySelector('.nav-item.active');
+var idx=pages.indexOf(current?current.dataset.page:'dashboard');
+if(e.key==='ArrowRight'&&idx<pages.length-1){e.preventDefault();navigateTo(pages[idx+1])}
+if(e.key==='ArrowLeft'&&idx>0){e.preventDefault();navigateTo(pages[idx-1])}
+});
+</script>
+</body>
+</html>
