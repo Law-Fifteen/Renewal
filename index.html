@@ -1134,7 +1134,7 @@ URL.revokeObjectURL(a.href);
 }
 
 /* ===== LOGIN ===== */
-var _c={'Admin':'Morgan12','Guest':'Renewal84'};
+var _c={'admin':'morgan12','guest':'renewal84'};
 /* ===== THEME ===== */
 function initTheme(){
 var saved=localStorage.getItem('renewal-theme');
@@ -1166,7 +1166,7 @@ function attemptLogin(){
 var u=document.getElementById('loginUser').value.trim();
 var p=document.getElementById('loginPass').value;
 var e=document.getElementById('loginError');
-if(_c[u]===p){e.textContent='';revealApp()}
+if(_c[u.toLowerCase()]===p.toLowerCase()){e.textContent='';revealApp()}
 else{e.textContent='Invalid credentials. Check spelling and capitalization.';document.getElementById('loginPass').value=''}
 }
 document.getElementById('loginPass').addEventListener('keydown',function(ev){if(ev.key==='Enter')attemptLogin()});
