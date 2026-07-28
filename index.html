@@ -216,6 +216,31 @@ body.light .note-entry{background:#f8f8f8;border-color:#ddd}
 .note-input-area button{padding:10px 20px;border-radius:var(--radius-sm);font-size:.82rem;font-weight:600;cursor:pointer;border:none;background:var(--accent);color:#fff;font-family:'Inter',sans-serif;transition:all .2s;align-self:flex-end}
 .note-input-area button:hover{background:#005a9e}
 
+/* Call Samples */
+.call-tab{display:none}.call-tab.active{display:block;animation:fadeIn .3s ease}
+.call-header{margin-bottom:24px}
+.call-header h3{font-size:1.3rem;margin-bottom:6px}
+.call-objective{font-size:.9rem;color:var(--text);margin-bottom:6px}
+.call-principle{font-size:.86rem;color:var(--text-dim);line-height:1.6}
+.call-script{margin-bottom:24px}
+.call-line{display:flex;gap:14px;padding:12px 0;border-bottom:1px solid var(--glass-border)}
+.call-line:last-child{border-bottom:none}
+.call-role{width:80px;flex-shrink:0;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;padding-top:2px}
+.call-line.rep .call-role{color:var(--accent)}
+.call-line.cust .call-role{color:var(--text-muted)}
+.call-text{font-size:.9rem;line-height:1.6;color:var(--text)}
+.call-coach{display:flex;gap:12px;padding:14px 18px;margin:12px 0;border-radius:var(--radius-sm);background:rgba(0,119,200,.06);border:1px solid rgba(0,119,200,.12)}
+.call-coach-icon{font-size:1.1rem;flex-shrink:0;padding-top:1px}
+.call-coach-text{font-size:.85rem;line-height:1.6;color:var(--text-dim)}
+.call-coach-text strong{color:var(--text)}
+.call-takeaway{background:linear-gradient(135deg,rgba(0,119,200,.08),rgba(0,119,200,.02));border:1px solid rgba(0,119,200,.15);border-radius:var(--radius);padding:18px 22px;margin-top:20px}
+.call-takeaway-label{font-size:.62rem;color:var(--accent);text-transform:uppercase;letter-spacing:2px;font-weight:700;margin-bottom:8px}
+.call-takeaway ul{list-style:none;padding:0}
+.call-takeaway li{padding:4px 0 4px 18px;position:relative;font-size:.86rem;color:var(--text-dim)}
+.call-takeaway li::before{content:'\203A';position:absolute;left:0;color:var(--accent);font-weight:700}
+body.light .call-coach{background:rgba(0,119,200,.04);border-color:rgba(0,119,200,.1)}
+body.light .call-takeaway{background:rgba(0,119,200,.04);border-color:rgba(0,119,200,.12)}
+
 /* Print */
 @media print{
   .sidebar,.menu-toggle,.bokeh,.login-overlay,.checklist-actions,.note-input-area,.modal-overlay{display:none!important}
@@ -272,6 +297,8 @@ body.light .note-entry{background:#f8f8f8;border-color:#ddd}
 <div class="nav-item" data-page="debrief"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>Post-Call Debrief</div>
 <div class="nav-item" data-page="actionplan"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Action Plan</div>
 <div class="nav-item" data-page="notes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>Manager Notes</div>
+<div class="nav-label">Reference</div>
+<div class="nav-item" data-page="callsamples"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>Call Samples</div>
 <div class="nav-label">Report</div>
 <div class="nav-item" data-page="report"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>Coaching Report</div>
 </nav>
@@ -641,6 +668,210 @@ body.light .note-entry{background:#f8f8f8;border-color:#ddd}
 <button onclick="navigateTo('report')">Coaching Report &rarr;</button>
 </div>
 </div>
+
+<!-- ======================== CALL SAMPLES ======================== -->
+<div class="page" id="page-callsamples">
+<div class="ittt-section">
+<h2><span class="icon" style="background:var(--accent-dim);color:var(--accent)">&#128222;</span> Call Samples</h2>
+<p>Reference scripts for common outbound scenarios. Study the flow, tone, and technique &mdash; then make them your own.</p>
+
+<div class="tabs" id="call-tabs">
+<button class="tab active" data-call="curious">The Curious Homeowner</button>
+<button class="tab" data-call="objection">Immediate Objection</button>
+<button class="tab" data-call="price">Price Concern</button>
+<button class="tab" data-call="decision">Decision Maker Missing</button>
+<button class="tab" data-call="busy">The Busy Prospect</button>
+</div>
+</div>
+
+<!-- Tab 1: Curious Homeowner -->
+<div class="call-tab active" id="call-curious">
+<div class="call-header">
+<h3>The Curious Homeowner</h3>
+<p class="call-objective"><strong>Objective:</strong> Set an appointment with someone who has mild interest.</p>
+<p class="call-principle">This call is about creating curiosity, not closing. The rep's job is to give context, ask light discovery questions, and make the consultation feel like a no-obligation next step.</p>
+</div>
+
+<div class="call-script">
+<div class="call-line rep"><div class="call-role">Rep</div><div class="call-text">Hi, is this Mr. Anderson?</div></div>
+<div class="call-line cust"><div class="call-role">Customer</div><div class="call-text">Speaking.</div></div>
+<div class="call-line rep"><div class="call-role">Rep</div><div class="call-text">Hi Mr. Anderson, my name's Sarah with Renewal by Andersen. I'm giving you a quick call because we recently had homeowners in your neighborhood requesting estimates on replacing older windows, and your address came up in that area.</div></div>
+
+<div class="call-coach"><div class="call-coach-icon">&#128161;</div><div class="call-coach-text"><strong>Why this works:</strong> She immediately gives context. The prospect isn't left wondering "who is this and why are they calling?" The neighborhood reference makes it feel local and relevant &mdash; not a cold blast.</div></div>
+
+<div class="call-line rep"><div class="call-role">Rep</div><div class="call-text">Did I catch you at a terrible time?</div></div>
+<div class="call-line cust"><div class="call-role">Customer</div><div class="call-text">I've got a minute.</div></div>
+<div class="call-line rep"><div class="call-role">Rep</div><div class="call-text">Perfect. Out of curiosity &mdash; have you lived there long?</div></div>
+<div class="call-line cust"><div class="call-role">Customer</div><div class="call-text">About 18 years.</div></div>
+<div class="call-line rep"><div class="call-role">Rep</div><div class="call-text">Nice. Then you've probably gotten to know the house pretty well. Can I ask &mdash; are these still the original windows?</div></div>
+<div class="call-line cust"><div class="call-role">Customer</div><div class="call-text">Yeah... most of them are.</div></div>
+
+<div class="call-coach"><div class="call-coach-icon">&#128161;</div><div class="call-coach-text"><strong>Now discovery starts.</strong> The rep didn't lead with a pitch. She led with genuine curiosity about the home. The customer is now volunteering information.</div></div>
+
+<div class="call-line rep"><div class="call-role">Rep</div><div class="call-text">Gotcha. What's made them stay on your radar &mdash; drafts? Hard to open? Just getting older?</div></div>
+<div class="call-line cust"><div class="call-role">Customer</div><div class="call-text">Mostly they're hard to open. A couple fog up.</div></div>
+
+<div class="call-coach"><div class="call-coach-icon">&#9989;</div><div class="call-coach-text"><strong>The customer just diagnosed themselves.</strong> The rep didn't have to explain a single problem. The homeowner identified the issues on their own. This is the goal of every discovery call.</div></div>
+
+<div class="call-line rep"><div class="call-role">Rep</div><div class="call-text">That's actually pretty common. Usually when we're hearing about windows sticking or seals fogging up, homeowners are just trying to figure out whether they're repairable or if replacement makes more financial sense. Has anyone ever come out and looked at them?</div></div>
+<div class="call-line cust"><div class="call-role">Customer</div><div class="call-text">No.</div></div>
+<div class="call-line rep"><div class="call-role">Rep</div><div class="call-text">Would it be helpful to have one of our design consultants stop by? No obligation &mdash; they'll inspect everything, answer your questions, show you what's going on, and give you pricing if replacement actually makes sense.</div></div>
+
+<div class="call-coach"><div class="call-coach-icon">&#128161;</div><div class="call-coach-text"><strong>Notice:</strong> No pressure. No close. No features. The word "helpful" reframes the appointment as a service, not a sale. "No obligation" removes risk.</div></div>
+
+<div class="call-line cust"><div class="call-role">Customer</div><div class="call-text">Maybe. How much is that?</div></div>
+<div class="call-line rep"><div class="call-role">Rep</div><div class="call-text">The consultation itself doesn't cost anything. The purpose is really to give you enough information to decide if it's worth doing now or later. Most appointments take about an hour. Would evenings or Saturdays work better?</div></div>
+
+<div class="call-coach"><div class="call-coach-icon">&#128205;</div><div class="call-coach-text"><strong>Appointment booked.</strong> Notice the transition: she answered the cost question, reframed the value, and immediately moved to scheduling. No back-and-forth. No "let me think about it" left on the table.</div></div>
+</div>
+
+<div class="call-takeaway">
+<div class="call-takeaway-label">Key Takeaways</div>
+<ul>
+<li>Lead with context, not a pitch</li>
+<li>Ask light discovery questions that feel conversational</li>
+<li>Let the customer diagnose themselves</li>
+<li>Reframe the consultation as a service, not a sale</li>
+<li>Transition to scheduling naturally once interest is confirmed</li>
+</ul>
+</div>
+</div>
+
+<!-- Tab 2: Immediate Objection -->
+<div class="call-tab" id="call-objection">
+<div class="call-header">
+<h3>Immediate Objection</h3>
+<p class="call-objective"><strong>Objective:</strong> Handle a quick rejection and uncover the real barrier.</p>
+<p class="call-principle">Most reps panic when they hear "not interested." Great reps stay calm, ask one clarifying question, and find out whether it's a timing issue, a product issue, or simply a brush-off. One question changes everything.</p>
+</div>
+
+<div class="call-script">
+<div class="call-line rep"><div class="call-role">Rep</div><div class="call-text">Hi Mrs. Taylor? This is Chris with Renewal by Andersen &mdash;</div></div>
+<div class="call-line cust"><div class="call-role">Customer</div><div class="call-text">Not interested.</div></div>
+
+<div class="call-coach"><div class="call-coach-icon">&#9888;</div><div class="call-coach-text"><strong>This is where average reps hang up.</strong> They hear "not interested" and interpret it as a wall. But it's actually a door &mdash; you just need to ask which one.</div></div>
+
+<div class="call-line rep"><div class="call-role">Rep</div><div class="call-text">No worries. Can I ask one quick question before I let you go?</div></div>
+<div class="call-line cust"><div class="call-role">Customer</div><div class="call-text">Sure.</div></div>
+<div class="call-line rep"><div class="call-role">Rep</div><div class="call-text">When you say "not interested" &mdash; is it because the windows aren't giving you any problems, or just because the timing isn't good right now?</div></div>
+
+<div class="call-coach"><div class="call-coach-icon">&#128161;</div><div class="call-coach-text"><strong>This is an excellent question.</strong> It forces the customer to choose between two specific options instead of giving a vague "no." It also shows the rep is listening, not just reciting.</div></div>
+
+<div class="call-line cust"><div class="call-role">Customer</div><div class="call-text">Timing.</div></div>
+
+<div class="call-coach"><div class="call-coach-icon">&#127919;</div><div class="call-coach-text"><strong>Now we know.</strong> Not product. Not price. Not trust. Timing. That's a completely different conversation than "not interested."</div></div>
+
+<div class="call-line rep"><div class="call-role">Rep</div><div class="call-text">Makes sense. Out of curiosity &mdash; if timing wasn't the issue, would replacing the windows eventually be something you'd consider?</div></div>
+<div class="call-line cust"><div class="call-role">Customer</div><div class="call-text">Eventually.</div></div>
+<div class="call-line rep"><div class="call-role">Rep</div><div class="call-text">That's exactly why I asked. Many homeowners we're meeting with aren't replacing today &mdash; they're gathering information while they plan for next year. Would it hurt to have someone give you numbers so you're planning with real information instead of guessing?</div></div>
+
+<div class="call-coach"><div class="call-coach-icon">&#128161;</div><div class="call-coach-text"><strong>The objection is handled naturally.</strong> The rep didn't argue, didn't pitch, didn't pressure. She reframed the consultation as research, not a commitment. "Real information instead of guessing" is a compelling reason to say yes.</div></div>
+</div>
+
+<div class="call-takeaway">
+<div class="call-takeaway-label">Key Takeaways</div>
+<ul>
+<li>"Not interested" is not a wall &mdash; it's a door</li>
+<li>Ask one clarifying question before accepting the rejection</li>
+<li>Force a choice between specific options instead of a vague no</li>
+<li>Reframe the appointment as research, not a commitment</li>
+<li>Never argue, never pressure, never defend</li>
+</ul>
+</div>
+</div>
+
+<!-- Tab 3: Price Concern -->
+<div class="call-tab" id="call-price">
+<div class="call-header">
+<h3>Price Concern</h3>
+<p class="call-objective"><strong>Objective:</strong> Neutralize a price objection before it becomes a barrier.</p>
+<p class="call-principle">When a prospect leads with "Andersen is expensive," they're testing you. They want to see if you'll defend, deflect, or crumble. The best response is agreement, followed by a reframe that shifts the conversation from price to value.</p>
+</div>
+
+<div class="call-script">
+<div class="call-line cust"><div class="call-role">Customer</div><div class="call-text">I've heard Andersen is expensive.</div></div>
+
+<div class="call-coach"><div class="call-coach-icon">&#9888;</div><div class="call-coach-text"><strong>Never argue.</strong> The moment you say "actually, we're very competitive," you've lost credibility. The customer stated a belief. Respect it.</div></div>
+
+<div class="call-line rep"><div class="call-role">Rep</div><div class="call-text">You're not the first person who's told me that. Can I ask &mdash; compared to what?</div></div>
+
+<div class="call-coach"><div class="call-coach-icon">&#128161;</div><div class="call-coach-text"><strong>"Compared to what?"</strong> is one of the most powerful questions in sales. It forces the customer to reveal their frame of reference. Are they comparing to a national brand? A local contractor? A rumor from a neighbor?</div></div>
+
+<div class="call-line cust"><div class="call-role">Customer</div><div class="call-text"><em>(laughs)</em> Just what people say.</div></div>
+<div class="call-line rep"><div class="call-role">Rep</div><div class="call-text">Fair enough. Sometimes we actually aren't the least expensive option. The reason homeowners still choose us usually comes down to installation quality, warranty coverage, and how long they're planning to stay in the home. That's really why we schedule consultations &mdash; it gives you something to compare instead of relying on rumors.</div></div>
+
+<div class="call-coach"><div class="call-coach-icon">&#128161;</div><div class="call-coach-text"><strong>No defensive selling.</strong> The rep agreed, explained why, and reframed the consultation as a way to verify &mdash; not as a sales pitch. "Something to compare instead of relying on rumors" is disarming because it's honest.</div></div>
+</div>
+
+<div class="call-takeaway">
+<div class="call-takeaway-label">Key Takeaways</div>
+<ul>
+<li>Never argue with a price objection</li>
+<li>"Compared to what?" reveals the real frame of reference</li>
+<li>Acknowledge, then reframe: price becomes value</li>
+<li>Position the consultation as a way to verify, not to buy</li>
+<li>Honesty disarms defensiveness faster than any pitch</li>
+</ul>
+</div>
+</div>
+
+<!-- Tab 4: Decision Maker Missing -->
+<div class="call-tab" id="call-decision">
+<div class="call-header">
+<h3>Decision Maker Missing</h3>
+<p class="call-objective"><strong>Objective:</strong> Secure a time when all decision-makers are present.</p>
+<p class="call-principle">When a spouse or partner "handles all of that," most reps either push through or give up. The best approach is to validate the decision-maker's involvement and reframe their presence as a benefit &mdash; not a hurdle.</p>
+</div>
+
+<div class="call-script">
+<div class="call-line cust"><div class="call-role">Customer</div><div class="call-text">My husband handles all that.</div></div>
+<div class="call-line rep"><div class="call-role">Rep</div><div class="call-text">Understood. Does he usually like being involved in home improvement decisions?</div></div>
+<div class="call-line cust"><div class="call-role">Customer</div><div class="call-text">Yes.</div></div>
+<div class="call-line rep"><div class="call-role">Rep</div><div class="call-text">Perfect. We actually encourage both homeowners to be there. That way nobody has to relay information later or make decisions without hearing the same presentation. When would both of you normally be home?</div></div>
+
+<div class="call-coach"><div class="call-coach-icon">&#128161;</div><div class="call-coach-text"><strong>Notice the reframe.</strong> Instead of treating the absent spouse as an obstacle, the rep positioned their presence as something the company <em>wants</em>. "Nobody has to relay information" is a benefit the customer can immediately understand. The question "when would both of you normally be home?" assumes the appointment will happen &mdash; it just needs the right timing.</div></div>
+</div>
+
+<div class="call-takeaway">
+<div class="call-takeaway-label">Key Takeaways</div>
+<ul>
+<li>Never bypass a decision-maker &mdash; include them</li>
+<li>Reframe their presence as a benefit, not a hurdle</li>
+<li>"Nobody has to relay information" resonates with everyone</li>
+<li>Assume the appointment will happen, just find the right time</li>
+<li>A smooth transition avoids objections at the door</li>
+</ul>
+</div>
+</div>
+
+<!-- Tab 5: Busy -->
+<div class="call-tab" id="call-busy">
+<div class="call-header">
+<h3>The Busy Prospect</h3>
+<p class="call-objective"><strong>Objective:</strong> Get a micro-commitment for a callback instead of losing the lead.</p>
+<p class="call-principle">A busy prospect isn't a lost prospect. The worst thing you can do is keep talking. The best thing is to respect their time and lock in a specific callback. A micro-commitment is infinitely better than a vague "I'll call you back."</p>
+</div>
+
+<div class="call-script">
+<div class="call-line cust"><div class="call-role">Customer</div><div class="call-text">I'm walking into work.</div></div>
+<div class="call-line rep"><div class="call-role">Rep</div><div class="call-text">Absolutely. I don't want to keep you. Before I let you go &mdash; would it be easier if I called you this afternoon or tomorrow evening?</div></div>
+
+<div class="call-coach"><div class="call-coach-icon">&#128161;</div><div class="call-coach-text"><strong>Micro-commitment.</strong> The rep didn't try to continue the conversation. She didn't say "it'll just take a second." She respected the boundary and immediately offered two specific options. This is a binary choice &mdash; not "can I call you later?" which invites a vague yes or a soft no.</div></div>
+</div>
+
+<div class="call-takeaway">
+<div class="call-takeaway-label">Key Takeaways</div>
+<ul>
+<li>A busy prospect isn't a lost prospect</li>
+<li>Respect their time &mdash; don't try to squeeze in "just one more thing"</li>
+<li>Offer two specific callback times (binary choice)</li>
+<li>A micro-commitment beats a vague "I'll call you back" every time</li>
+<li>The goal shifts from closing to preserving the opportunity</li>
+</ul>
+</div>
+</div>
+
+</div><!-- end call samples page -->
 
 <!-- ======================== COACHING REPORT ======================== -->
 <div class="page" id="page-report">
@@ -1178,10 +1409,22 @@ document.querySelector('.app').classList.remove('hidden');
 setTimeout(function(){o.style.display='none'},900);
 }
 
+/* ===== CALL SAMPLE TABS ===== */
+document.querySelectorAll('#call-tabs .tab').forEach(function(tab){
+tab.addEventListener('click',function(){
+document.querySelectorAll('#call-tabs .tab').forEach(function(t){t.classList.remove('active')});
+tab.classList.add('active');
+var target=tab.dataset.call;
+document.querySelectorAll('.call-tab').forEach(function(ct){ct.classList.remove('active')});
+var el=document.getElementById('call-'+target);
+if(el)el.classList.add('active');
+});
+});
+
 /* ===== KEYBOARD NAV ===== */
 document.addEventListener('keydown',function(e){
 if(e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA'||e.target.tagName==='SELECT')return;
-var pages=['dashboard','precall','observation','scoring','behavioral','debrief','actionplan','notes','report'];
+var pages=['dashboard','precall','observation','scoring','behavioral','debrief','actionplan','notes','callsamples','report'];
 var current=document.querySelector('.nav-item.active');
 var idx=pages.indexOf(current?current.dataset.page:'dashboard');
 if(e.key==='ArrowRight'&&idx<pages.length-1){e.preventDefault();navigateTo(pages[idx+1])}
